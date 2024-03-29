@@ -66,3 +66,12 @@ class FileStorage:
             obj_key = "{}.{}".format(type(obj).__name__, obj.id)
             if obj_key in FileStorage.__objects:
                 del FileStorage.__objects[obj_key]
+
+    @property
+    def cities(self):
+        """Getter atributte cities that returns the list of cities
+        instances with state_id equals to the current State.id"""
+        from models.city import City
+        from models.state import State
+        return [city for city in self.all(City).values()
+                if city.state_id == self.id]
