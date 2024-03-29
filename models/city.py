@@ -6,7 +6,7 @@ and a class attribute name that represents the city
 of the State class with a string (60) """
 
 from sqlalchemy import Column, String, ForeignKey
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 
 
 class City():
