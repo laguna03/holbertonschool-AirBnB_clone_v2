@@ -1,5 +1,10 @@
 #!/usr/bin/python3
-""" City Module for HBNB project """
+""" City Module for HBNB project
+with a class City that inherits from BaseModel
+and a class attribute name that represents the city
+ name and state_id with  a foreign key to states.id
+of the State class with a string (60) """
+
 from sqlalchemy import Column, String, ForeignKey
 from models.base_model import BaseModel
 
