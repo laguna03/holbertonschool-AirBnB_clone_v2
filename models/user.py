@@ -1,27 +1,24 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from models.base_model import BaseModel, Base
-from os import getenv
+from models.base_model import Base
+from models.base_model import BaseModel
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
-    # file  for FileStorage or db for DBStorage
-    __tablename__ = "users"
+    __tablename__ = 'users'
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        from sqlalchemy import Column, String
-        from sqlalchemy.orm import relationship
-        places = relationship("Place", backref="user",
-                               cascade="all, delete")
-        reviews = relationship("Review", backref="user",
-                                cascade="all, delete")
+    def __init__(self, *args, **kwargs):
+        """ inherit from base and Basemodel """
+        super().__init__(*args, **kwargs)
 
-    else:
-        places = []
-        reviews = []
+    places = relationship("Place", backref="user", cascade="delete")
+    reviews = relationship("Review", backref="user", cascade="delete")

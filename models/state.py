@@ -3,32 +3,25 @@
 with a class State that inherits from BaseModel
 and a class attribute name that represents the
  state name with a string (128)"""
+import models
 from models.base_model import BaseModel
 from models.base_model import Base
-from os import getenv
-from sqlalchemy import Column, String
+from models.city import City
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
     """ State class """
-
-    # file ? for FileStorage or db for DBStorage
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
+    cities = relationship("City", backref="state", cascade="delete")
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        from sqlalchemy.orm import relationship
-        cities = relationship("City", backref="state", cascade="all, delete")
-
-    else:
-
-        @property
-        def cities(self):
-            from models.__init__ import storage
-            from models.city import City
-
-            cities_list = []
-            for key, val in storage.all(City).items():
-                if val.state_id == self.id:
-                    cities_list.append(val)
-            return cities_list
+    @property
+    def cities(self):
+        city_list = []
+        for city in list(models.storage.all(City).values()):
+            if city.state_id == self.id:
+                city_list.append(city)
+        return city_list
