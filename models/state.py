@@ -1,42 +1,34 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
-from models.base_model import BaseModel, Base
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String
+""" State Module for HBNB project
+with a class State that inherits from BaseModel
+and a class attribute name that represents the
+ state name with a string (128)"""
+from models.base_model import BaseModel
+from models.base_model import Base
 from os import getenv
-import models
-from models.city import City
+from sqlalchemy import Column, String
 
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'states'
 
+    # file ? for FileStorage or db for DBStorage
+    __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state",
-                          cascade="all, delete")
-    # @property
-    # def cities(self):
-    #     """Getter attribute cities that
-    # returns the list of City instances"""
-    #     city_list = []
-    #     all_cities = models.storage.all(City)
-    #     for city in all_cities.values():
-    #         if city.state_id == self.id:
-    #             city_list.append(city)
-    #     return city_list
 
-    if getenv('HBNB_TYPE_STORAGE') != 'db':
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        from sqlalchemy.orm import relationship
+        cities = relationship("City", backref="state", cascade="all, delete")
+
+    else:
+
         @property
         def cities(self):
-            """Returns the list of City instances with
-            state_id equals to the current State.id"""
-            from models import storage
-            all_cities = storage.all(City)
-            return [city for city in all_cities.values()
-                    if city.state_id == self.id]
+            from models.__init__ import storage
+            from models.city import City
 
-        def close(self):
-            """Close session"""
-            Session.close()
+            cities_list = []
+            for key, val in storage.all(City).items():
+                if val.state_id == self.id:
+                    cities_list.append(val)
+            return cities_list
