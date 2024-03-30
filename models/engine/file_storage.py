@@ -9,23 +9,23 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """
-        Returns a dictionary of models currently in storage optionally
-        filtered by class
-        """
+        """Returns a dictionary of models currently in storage"""
         if cls is not None:
-            cls_name = cls.__name__ if type(cls) == type else cls
-            return {
-                key: obj
-                for key, obj in FileStorage.__objects.items()
-                if key.split('.')[0] == cls_name
-            }
-
+            return dict(filter(lambda o: isinstance(o[1], cls),
+                        FileStorage.__objects.items()))
         return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+
+    def delete(self, obj=None):
+        """ Delete an object from storage dictionary"""
+        if obj is not None:
+            key = obj.to_dict()['__class__'] + '.' + obj.id
+            if key in self.all().keys():
+                del self.all()[key]
+                self.save()
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -60,18 +60,6 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-    def delete(self, obj=None):
-        """Deletes obj from __objects if it’s inside"""
-        if obj is not None:
-            obj_key = "{}.{}".format(type(obj).__name__, obj.id)
-            if obj_key in FileStorage.__objects:
-                del FileStorage.__objects[obj_key]
-
-    @property
-    def cities(self):
-        """Getter atributte cities that returns the list of cities
-        instances with state_id equals to the current State.id"""
-        from models.city import City
-        from models.state import State
-        return [city for city in self.all(City).values()
-                if city.state_id == self.id]
+    def close(self):
+        """ Close - call reload method to deserializing the JSON file"""
+        self.reload()
