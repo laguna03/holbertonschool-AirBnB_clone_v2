@@ -1,22 +1,27 @@
 #!/usr/bin/python3
-"""c_route: First app for web python-flask"""
+""" C_route.py Task 2 """
 
 from flask import Flask
+
 app = Flask(__name__)
 
-@app.route('/', strict_slashes=False)
-def index():
-    """Say Hello"""
-    return 'Hello HBNB!'
 
-@app.route('/hbnb', strict_slashes=False)
+@app.route("/", strict_slashes=False)
+def index():
+    """Say Hello HBNB!"""
+    return "Hello HBNB!"
+
+
+@app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """Say HBNB"""
-    return 'HBNB'
+    return "HBNB"
 
-@app.route('/c/<text>', strict_slashes=False)
+
+@app.route("/c/<text>", strict_slashes=False)
 def c(text):
-    text = text.replace('_', ' ')
+    """Return URL Route with variable"""
+    text = text.replace("_", " ")
     return "C {}".format(text)
 
 if __name__ == '__main__':
