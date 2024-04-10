@@ -6,9 +6,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
-'''Defines the route '/' and returns "Hello HBNB!"'''
+'''Defines the route and returns "Hello HBNB!"'''
 
-@app.route("/", strict_slashes=False)
+@app.route('/', strict_slashes=False)
 def hello_hbnb():
     '''Displays Hello HBNB!'''
     return 'Hello HBNB!'
