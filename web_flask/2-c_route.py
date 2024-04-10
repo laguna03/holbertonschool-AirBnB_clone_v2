@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 """c_route: First app for web python-flask"""
 
 from flask import Flask
