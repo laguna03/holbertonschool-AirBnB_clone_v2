@@ -3,10 +3,10 @@
 
 from flask import Flask
 
-""" Creacion de instancia de la aplicación Flask """
+""" Crear una nueva instancia de Flask"""
 app = Flask(__name__)
 
-""" Definir la ruta principal ("/") con el mensaje "Hello HBNB!" """
+""" Define the principal route ("/") with the message "Hello HBNB!" """
 
 
 @app.route('/', strict_slashes=False)
@@ -21,6 +21,6 @@ def hbnb():
 
 if __name__ == '__main__':
     """
-    Configurar la aplicación para que escuche en 0.0.0.0 en el puerto 5000
+    Configure app to listen in 0.0.0.0 in port 5000
     """
     app.run(host='0.0.0.0', port=5000)
