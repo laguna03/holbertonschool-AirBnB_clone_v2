@@ -13,7 +13,7 @@ app = Flask(__name__)
 def hello_hbnb():
     return 'Hello HBNB!'
 
-""" Define route ("/hbnb") with msg "HBNB""""
+""" Define route ("/hbnb") with msg "HBNB" """
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
