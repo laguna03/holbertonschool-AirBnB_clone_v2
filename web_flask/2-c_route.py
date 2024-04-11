@@ -7,7 +7,7 @@ from urllib.parse import unquote_plus
 """ Create new Flask instance"""
 app = Flask(__name__)
 
-""" Define principal route ("/") with msg "Hello HBNB!" """
+""" Define the principal route ("/") with the message "Hello HBNB!" """
 
 
 @app.route('/', strict_slashes=False)
@@ -28,6 +28,6 @@ def c_display(text):
 
 if __name__ == '__main__':
     """
-    Configure app to listen in  0.0.0.0 in port 5000
+    Configure app to listen in 0.0.0.0 in port 5000
     """
     app.run(host='0.0.0.0', port=5000)
