@@ -7,9 +7,9 @@ import models
 from models.base_model import BaseModel
 from models.base_model import Base
 from models.city import City
-from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from models.engine.db_storage import DBStorage
 
 
 class State(BaseModel, Base):
